@@ -89,7 +89,7 @@ export default class Physics {
         }
 
         vec3.add(a.translation, a.translation, minDirection);
-        a.updateTransform();
+        a.updateTransformB();
+        // a.updateMatrix();
     }
-
 }

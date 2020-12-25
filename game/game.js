@@ -17,25 +17,25 @@ class App extends Application {
 
 	async start() {
 		this.loader = new GLTFLoader();
-		// await this.loader.load('../../common/models/monkey/monkey.gltf');
-		// await this.loader.load('../../common/models/test/test.gltf');
+		// await this.loader.load('../../common/models/Cube/Cube.gltf');
+		// await this.loader.load('../../common/models/BoxTextured/BoxTextured.gltf');
+		await this.loader.load('../../common/models/monkey/monkey.gltf');
 		// await this.loader.load('../../common/models/pyramid/pyramid.gltf');
-		await this.loader.load('../../common/models/myLevel/myLevel.gltf')
+		// await this.loader.load('../../common/models/myLevel/myLevel.gltf')
+
+		console.log(this.loader);
 
 		this.scene = await this.loader.loadScene(this.loader.defaultScene);
-		this.camera = await this.loader.loadNode('Camera');
+		// this.camera = await this.loader.loadNode('Camera');
 
 		this.camera = new MyCamera();
-		this.camera.updateTransform();
-		this.camera.updateMatrix();
-
-		this.camera.translation = vec3.fromValues(1, 1, 5);
-		this.camera.updateMatrix();
+		this.camera.translation = vec3.fromValues(0, 0, 4);
 		this.camera.camera = new PerspectiveCamera();
 		this.scene.addNode(this.camera);
 
-		// physics can pause
-		// this.physics = new Physics(this.scene);
+		console.log(this.scene);
+		this.physics = new Physics(this.scene);
+		console.log(this.physics);
 
 		this.renderer = new Renderer(this.gl);
 		this.renderer.prepareScene(this.scene);
