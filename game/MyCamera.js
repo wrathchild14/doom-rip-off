@@ -1,4 +1,5 @@
 import Node from './Node.js';
+import Bullet from './Bullet.js';
 import Camera from './Camera.js';
 
 const mat4 = glMatrix.mat4;
@@ -31,9 +32,12 @@ export default class MyCamera extends Node {
         }
 
         this.mousemoveHandler = this.mousemoveHandler.bind(this);
+        this.mouseshootHandler = this.mouseshootHandler.bind(this);
         this.keydownHandler = this.keydownHandler.bind(this);
         this.keyupHandler = this.keyupHandler.bind(this);
         this.keys = {};
+
+        this.bullets = [];
     }
 
     update(dt) {
@@ -80,29 +84,47 @@ export default class MyCamera extends Node {
         vec3.scaleAndAdd(c.translation, c.translation, c.velocity, dt);
 
         // 6: update the final transform
-        const t = c.transform;
-        mat4.identity(t);
-        mat4.translate(t, t, c.translation);
-        mat4.rotateY(t, t, c.r[1]);
-        mat4.rotateX(t, t, c.r[0]);
+        // const t = c.transform;
+        // mat4.identity(t);
+        // mat4.translate(t, t, c.translation);
+        // mat4.rotateY(t, t, c.r[1]);
+        // mat4.rotateX(t, t, c.r[0]);
+        // this.updateTransformB();
 
         this.updateMatrix();
     }
 
     enable() {
         document.addEventListener('mousemove', this.mousemoveHandler);
+        document.addEventListener('mousedown', this.mouseshootHandler);
         document.addEventListener('keydown', this.keydownHandler);
         document.addEventListener('keyup', this.keyupHandler);
     }
 
     disable() {
         document.removeEventListener('mousemove', this.mousemoveHandler);
+        document.removeEventListener('mousedown', this.mouseshootHandler);
         document.removeEventListener('keydown', this.keydownHandler);
         document.removeEventListener('keyup', this.keyupHandler);
 
         for (let key in this.keys) {
             this.keys[key] = false;
         }
+    }
+
+    mouseshootHandler(e) {
+        const c = this;
+
+        const bullet = new Bullet();
+        bullet.rotation = c.rotation;
+        bullet.translation = c.translation;
+        this.bullets.push(bullet);
+
+        console.log("im shooting at ", c.rotation, "i am at ", c.translation);
+    }
+
+    getBullets() {
+        return this.bullets;
     }
 
     mousemoveHandler(e) {
