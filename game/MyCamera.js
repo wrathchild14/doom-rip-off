@@ -13,9 +13,9 @@ export default class MyCamera extends Node {
         this.r = options.r ?
             vec3.clone(options.r) :
             vec3.fromValues(0, 0, 0);
-        this.projection = options.projection ?
-            mat4.clone(options.projection) :
-            mat4.create();
+        // this.projection = options.projection ?
+        //     mat4.clone(options.projection) :
+        //     mat4.create();
         this.velocity = options.velocity ?
             vec3.clone(options.velocity) :
             vec3.fromValues(0, 0, 0);
@@ -26,8 +26,8 @@ export default class MyCamera extends Node {
 
         //test
         this.aabb = {
-            min: [0.2, 0.2, 0.2],
-            max: [-0.2, -0.2, -0.2]
+            "min": [-0.2, -0.2, -0.2],
+            "max": [0.2, 0.2, 0.2]
         }
 
         this.mousemoveHandler = this.mousemoveHandler.bind(this);

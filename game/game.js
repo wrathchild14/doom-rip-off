@@ -19,17 +19,25 @@ class App extends Application {
 		this.loader = new GLTFLoader();
 		// await this.loader.load('../../common/models/Cube/Cube.gltf');
 		// await this.loader.load('../../common/models/BoxTextured/BoxTextured.gltf');
-		await this.loader.load('../../common/models/monkey/monkey.gltf');
+		// await this.loader.load('../../common/models/monkey/monkey.gltf');
+		// await this.loader.load('../../common/models/test/test.gltf');
+		await this.loader.load('../../common/models/untitled/untitled.gltf');
+		// await this.loader.load('../../common/models/collision_test/collision_test.gltf');
+		// await this.loader.load('../../common/models/aabbtest/aabbtest.gltf');
 		// await this.loader.load('../../common/models/pyramid/pyramid.gltf');
 		// await this.loader.load('../../common/models/myLevel/myLevel.gltf')
 
 		console.log(this.loader);
 
 		this.scene = await this.loader.loadScene(this.loader.defaultScene);
-		// this.camera = await this.loader.loadNode('Camera');
-
+		//this.camera = await this.loader.loadNode('Camera');
+		
 		this.camera = new MyCamera();
-		this.camera.translation = vec3.fromValues(0, 0, 4);
+		this.camera.translation = vec3.fromValues(6, 2, 0);
+		this.camera.updateMatrix();
+		// this.camera.maxSpeed = 10;
+		// this.camera.acceleration = 50;
+
 		this.camera.camera = new PerspectiveCamera();
 		this.scene.addNode(this.camera);
 
@@ -64,6 +72,7 @@ class App extends Application {
 
 		if (this.camera) {
 			this.camera.update(dt);
+			// this.camera.camera.updateMatrix();
 		}
 
 		if (this.physics) {

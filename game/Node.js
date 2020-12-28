@@ -28,16 +28,21 @@ export default class Node {
         this.mesh = options.mesh || null;
 
         // aabb in primitives normal
-        if (this.mesh) {
-            this.aabb = {
-                min: this.mesh.primitives[0].attributes.POSITION.min,
-                max: this.mesh.primitives[0].attributes.POSITION.max
-            };
-        } else {
-            this.aabb = {
-                min: [0, 0, 0],
-                max: [0, 0, 0]
-            }
+        // if (this.mesh) {
+        //     this.aabb = {
+        //         "min": this.mesh.primitives[0].attributes.POSITION.min,
+        //         "max": this.mesh.primitives[0].attributes.POSITION.max
+        //     };
+        // } else {
+
+        // ?????? fix pls
+        let min = vec3.create();
+        vec3.scale(min, this.scale, -1);
+        let max = vec3.create();
+        vec3.scale(max, this.scale, 1);
+        this.aabb = {
+            "min": min,
+            "max": max
         }
 
         this.children = [...(options.children || [])];
@@ -47,6 +52,7 @@ export default class Node {
         this.parent = null;
 
         this.transform = mat4.create();
+        this.updateTransformB();
     }
 
     updateTransform() {

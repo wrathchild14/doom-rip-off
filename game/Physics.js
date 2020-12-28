@@ -11,7 +11,7 @@ export default class Physics {
         this.scene.traverse(node => {
             if (node.velocity) {
                 vec3.scaleAndAdd(node.translation, node.translation, node.velocity, dt);
-                node.updateTransform();
+                node.updateTransformB();
                 this.scene.traverse(other => {
                     if (node !== other) {
                         this.resolveCollision(node, other);
@@ -91,5 +91,6 @@ export default class Physics {
         vec3.add(a.translation, a.translation, minDirection);
         a.updateTransformB();
         // a.updateMatrix();
+        // console.log(a.translation);
     }
 }
