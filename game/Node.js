@@ -27,14 +27,6 @@ export default class Node {
         this.camera = options.camera || null;
         this.mesh = options.mesh || null;
 
-        // aabb in primitives normal
-        // if (this.mesh) {
-        //     this.aabb = {
-        //         "min": this.mesh.primitives[0].attributes.POSITION.min,
-        //         "max": this.mesh.primitives[0].attributes.POSITION.max
-        //     };
-        // } else {
-
         // ?????? fix pls
         let min = vec3.create();
         vec3.scale(min, this.scale, -1);

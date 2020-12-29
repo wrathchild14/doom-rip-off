@@ -113,18 +113,22 @@ export default class MyCamera extends Node {
     }
 
     mouseshootHandler(e) {
-        const c = this;
+        let bullet = new Bullet();
 
-        const bullet = new Bullet();
-        bullet.rotation = c.rotation;
-        bullet.translation = c.translation;
+        const forward = vec3.set(vec3.create(),
+            -Math.sin(this.r[1]), 0, -Math.cos(this.r[1]));
+        bullet.translation = vec3.add(vec3.create(), this.translation, forward);
+        bullet.r = vec3.add(vec3.create(), this.r, vec3.create());
+
         this.bullets.push(bullet);
-
-        console.log("im shooting at ", c.rotation, "i am at ", c.translation);
     }
 
     getBullets() {
         return this.bullets;
+    }
+
+    delBullets() {
+        this.bullets = [];
     }
 
     mousemoveHandler(e) {

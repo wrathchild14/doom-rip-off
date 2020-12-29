@@ -8,6 +8,7 @@ import Node from './Node.js';
 import MyCamera from './MyCamera.js';
 import Bullet from './Bullet.js';
 import Physics from './Physics.js';
+import BulletPhysics from './BulletPhysics.js';
 import OrthographicCamera from './OrthographicCamera.js';
 
 
@@ -29,30 +30,27 @@ class App extends Application {
 		// await this.loader.load('../../common/models/pyramid/pyramid.gltf');
 		// await this.loader.load('../../common/models/myLevel/myLevel.gltf')
 
-		console.log(this.loader);
-
 		this.scene = await this.loader.loadScene(this.loader.defaultScene);
-		//this.camera = await this.loader.loadNode('Camera');
 
 		this.camera = new MyCamera();
 		this.camera.translation = vec3.fromValues(0, 1, 2);
-		// this.camera.updateMatrix();
-		this.camera.maxSpeed = 10;
-		this.camera.acceleration = 50;
+		this.camera.updateMatrix();
+		this.camera.maxSpeed = 7;
+		this.camera.acceleration = 40;
 
 		this.camera.camera = new PerspectiveCamera();
 		this.scene.addNode(this.camera);
 
-		// adding nodes manually to test my bullets
-		// let bullet = new Bullet();
-		this.bulletMesh = this.scene.nodes[3].mesh;
-		this.bullet = new Bullet(this.bulletMesh);
-		this.bullet.translation = vec3.fromValues(1, 1, 4);
-		this.scene.addNode(this.bullet);
+		// i just need to make a sphere on the node 3, to take its mesh
+		let bulletMesh = this.scene.nodes[3].mesh;
+		this.scene.nodes[3].translation = vec3.fromValues(0, -1,0);
+		this.scene.nodes[3].updateMatrix();
 
-		console.log(this.scene);
+		this.bullets = [];
+		this.bulletPhysics = new BulletPhysics(this.scene, bulletMesh);
 		this.physics = new Physics(this.scene);
-		console.log(this.physics);
+
+		console.log(this.scene, this.physics, this.bulletPhysics);
 
 		this.renderer = new Renderer(this.gl);
 		this.renderer.prepareScene(this.scene);
@@ -80,24 +78,24 @@ class App extends Application {
 		this.startTime = this.time;
 
 		if (this.camera) {
-			this.camera.update(dt); // returns rotation (or usefulstuff shooting)
+			this.camera.update(dt);
 			this.bullets = this.camera.getBullets();
+
+			if (this.bullets.length > 0) {
+				this.bulletPhysics.add(this.bullets[0]);
+				this.bullets = [];
+				this.camera.delBullets();
+			}
+			// checks if there are any bullets and if they are it, gets it from the camera
+			// and adds it to the bullet phyics whihc updates it later on
 		}
 
 		if (this.physics) {
 			this.physics.update(dt);
 		}
-		// bad
-		if (this.bullet) {
-			this.bullet.update(dt);
-			
-			// this.bullet = this.bullets[0];
-			// this.sceneBullets(this.bullet);
-			// for (const bullet of this.bullets) {
-			// 	this.sceneBullets();
-			// 	bullet.mesh = this.bulletMesh;
-			// 	bullet.update(dt);
-			// }
+
+		if (this.bulletPhysics) {
+			this.bulletPhysics.update(dt);
 		}
 	}
 

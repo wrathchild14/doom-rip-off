@@ -9,6 +9,8 @@ export default class Bullet extends Node {
 	constructor(mesh, options = {}) {
 		super(options = {});
 
+		this.id = "bullet"; // for traverse, to see if its a bullet
+
 		this.r = options.r ?
 			vec3.clone(options.r) :
 			vec3.fromValues(0, 0, 0);
@@ -18,10 +20,9 @@ export default class Bullet extends Node {
 		this.velocity = options.velocity ?
 			vec3.clone(options.velocity) :
 			vec3.fromValues(0, 0, 0);
-		this.mouseSensitivity = 0.002;
-		this.maxSpeed = 3;
+		this.maxSpeed = 60;
 		this.friction = 0.2;
-		this.acceleration = 20;
+		this.acceleration = 40;
 
 		this.scale = vec3.fromValues(0.1, 0.1, 0.1);
 
@@ -36,22 +37,23 @@ export default class Bullet extends Node {
 	}
 
 	update(dt) {
-		// const c = this;
+		// voa go tere samo napredi da ode
+		const c = this;
 
 		const forward = vec3.set(vec3.create(),
-			-Math.sin(this.rotation[1]), 0, -Math.cos(this.rotation[1]));
+			-Math.sin(c.r[1]), 0, -Math.cos(c.r[1]));
 
 		let acc = vec3.create(0,0,0);
 		vec3.add(acc, acc, forward);
 
-		vec3.scaleAndAdd(this.velocity, this.velocity, acc, dt * this.acceleration);
+		vec3.scaleAndAdd(c.velocity, c.velocity, acc, dt * c.acceleration);
 
-		const len = vec3.len(this.velocity);
-		if (len > this.maxSpeed) {
-			vec3.scale(this.velocity, this.velocity, this.maxSpeed / len);
+		const len = vec3.len(c.velocity);
+		if (len > c.maxSpeed) {
+			vec3.scale(c.velocity, c.velocity, c.maxSpeed / len);
 		}
 
-		vec3.scaleAndAdd(this.translation, this.translation, this.velocity, dt);
+		vec3.scaleAndAdd(c.translation, c.translation, c.velocity, dt);
 
 		this.updateMatrix();
 	}
