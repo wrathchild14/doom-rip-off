@@ -21,8 +21,8 @@ export default class Bullet extends Node {
 		this.scale = vec3.fromValues(0.1, 0.1, 0.1);
 		this.mesh = null; // idk, we got to have a mesh
 		this.aabb = {
-			"min": [-0.1, -0.1, -0.1],
-			"max": [0.1, 0.1, 0.1]
+			"min": [-0.05, -0.05, -0.05],
+			"max": [0.05, 0.05, 0.05]
 		}
 
 		this.updateTransformB();

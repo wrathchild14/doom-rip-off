@@ -38,6 +38,7 @@ class App extends Application {
 		this.my_bullet.translation = vec3.fromValues(0, -1, 0);
 		this.my_bullet.updateMatrix();
 
+		// can be anyting
 		this.my_enemy = await this.loader.loadNode("Cube.001");
 		this.my_enemy.translation = vec3.fromValues(100, -1, 0);
 		this.my_enemy.updateMatrix();
@@ -128,6 +129,9 @@ class App extends Application {
 			this.scene.addNode(enemy);
 		}
 
+		// if i make a barrier across all the level, delete this, 
+		// it would automaticly delete the bullet if it collides with the said strucutre
+		
 		// delete the bullets if they are out of range 50 on x and y
 		if (this.scene) {
 			for (let i = 0; i < this.scene.nodes.length; i++) {

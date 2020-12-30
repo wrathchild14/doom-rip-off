@@ -38,9 +38,9 @@ export default class Physics {
     }
 
     aabbIntersection(aabb1, aabb2) {
-        return this.intervalIntersection(aabb1.min[0], aabb1.max[0], aabb2.min[0], aabb2.max[0])
-            && this.intervalIntersection(aabb1.min[1], aabb1.max[1], aabb2.min[1], aabb2.max[1])
-            && this.intervalIntersection(aabb1.min[2], aabb1.max[2], aabb2.min[2], aabb2.max[2]);
+        return this.intervalIntersection(aabb1.min[0], aabb1.max[0], aabb2.min[0], aabb2.max[0]) &&
+            this.intervalIntersection(aabb1.min[1], aabb1.max[1], aabb2.min[1], aabb2.max[1]) &&
+            this.intervalIntersection(aabb1.min[2], aabb1.max[2], aabb2.min[2], aabb2.max[2]);
     }
 
     resolveCollision(a, b) {
@@ -68,6 +68,11 @@ export default class Physics {
         if (!isColliding) {
             return;
         }
+
+        // deletes the bullet if it hits a structure
+        if (a.id == "bullet" && b.id != "enemy") {
+            this.delete(a);
+        } 
 
         // ok its bad, the enemy dies before the bullet comes to it
         if (a.id == "bullet" && b.id == "enemy") {
