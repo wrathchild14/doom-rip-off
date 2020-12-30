@@ -112,7 +112,7 @@ export default class MyCamera extends Node {
         }
     }
 
-    mouseshootHandler(e) {
+    mouseshootHandler() {
         let bullet = new Bullet();
 
         const forward = vec3.set(vec3.create(),

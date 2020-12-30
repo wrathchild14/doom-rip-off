@@ -25,6 +25,14 @@ export default class Physics {
         });
     }
 
+    delete(node) {
+        for (let i = 0; i < this.scene.nodes.length; i++) {
+            if (this.scene.nodes[i] == node) {
+                this.scene.nodes.splice(i, 1);
+            }
+        }
+    }
+
     intervalIntersection(min1, max1, min2, max2) {
         return !(min1 > max2 || min2 > max1);
     }
@@ -59,6 +67,13 @@ export default class Physics {
 
         if (!isColliding) {
             return;
+        }
+
+        // ok its bad, the enemy dies before the bullet comes to it
+        if (a.id == "bullet" && b.id == "enemy") {
+            this.delete(b);
+        } else if (b.id == "bullet" && a.id == "enemy") {
+            this.delete(a);
         }
 
         // Move node A minimally to avoid collision.
