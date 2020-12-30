@@ -18,6 +18,10 @@ export default class Physics {
                     }
                 });
             }
+            // todo: if the bullets hits a target, kill it 
+            if (node.id == 'bullet') {
+                node.update(dt);
+            }
         });
     }
 

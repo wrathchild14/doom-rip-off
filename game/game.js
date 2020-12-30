@@ -32,8 +32,13 @@ class App extends Application {
 
 		this.scene = await this.loader.loadScene(this.loader.defaultScene);
 
+		this.my_bullet = await this.loader.loadNode("Sphere");
+		let bulletMesh = this.my_bullet.mesh;
+		this.my_bullet.translation = vec3.fromValues(0, -1, 0);
+		this.my_bullet.updateMatrix();
+
 		this.camera = new MyCamera();
-		this.camera.translation = vec3.fromValues(0, 1, 2);
+		this.camera.translation = vec3.fromValues(0, 1, 0);
 		this.camera.updateMatrix();
 		this.camera.maxSpeed = 7;
 		this.camera.acceleration = 40;
@@ -42,12 +47,12 @@ class App extends Application {
 		this.scene.addNode(this.camera);
 
 		// i just need to make a sphere on the node 3, to take its mesh
-		let bulletMesh = this.scene.nodes[3].mesh;
-		this.scene.nodes[3].translation = vec3.fromValues(0, -1, 0);
-		this.scene.nodes[3].updateMatrix();
+		// let bulletMesh = this.scene.nodes[3].mesh;
+		// this.scene.nodes[3].translation = vec3.fromValues(0, -1, 0);
+		// this.scene.nodes[3].updateMatrix();
 
 		this.bullets = [];
-		this.bulletPhysics = new BulletPhysics(this.scene, bulletMesh);
+		// this.bulletPhysics = new BulletPhysics(this.scene, bulletMesh);
 		this.physics = new Physics(this.scene);
 
 		console.log(this.scene, this.physics, this.bulletPhysics);
@@ -82,11 +87,16 @@ class App extends Application {
 			this.bullets = this.camera.getBullets();
 
 			if (this.bullets.length > 0) {
-				this.bulletPhysics.add(this.bullets[0]);
+				// this.bulletPhysics.add(this.bullets[0]);
+				// so that we dont need the bulletphysics class, we just make and add the bullet here
+				this.bullets[0].mesh = this.my_bullet.mesh;
+				this.bullets[0].updateMatrix();
+				this.scene.addNode(this.bullets[0]);
+				
 				this.bullets = [];
 				this.camera.delBullets();
 			}
-			// checks if there are any bullets and if they are it, gets it from the camera
+			// checks if there are any bullets and if they are, it gets it from the camera
 			// and adds it to the bullet phyics which updates it later on
 		}
 
@@ -94,20 +104,21 @@ class App extends Application {
 			this.physics.update(dt);
 		}
 
-		if (this.bulletPhysics) {
-			this.bulletPhysics.update(dt);
-		}
+		// if (this.bulletPhysics) {
+		// 	this.bulletPhysics.update(dt);
+		// }
 
 		// delete the bullets if they are out of range
+		// i think its buggy, fix it
 		if (this.scene) {
 			for (let i = 0; i < this.scene.nodes.length; i++) {
 				let x = this.scene.nodes[i].translation[0],
 					y = this.scene.nodes[i].translation[1],
 					z = this.scene.nodes[i].translation[2];
 				if (x > 50 || x < -50) {
-					this.scene.nodes.pop(i);
+					this.scene.nodes.splice(i, 1);
 				} else if (z > 50 || z < -50) {
-					this.scene.nodes.pop(i);
+					this.scene.nodes.splice(i, 1);
 				}
 			}
 		}

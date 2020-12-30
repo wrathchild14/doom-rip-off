@@ -9,12 +9,12 @@ export default class BulletPhysics {
         this.bullets = [];
     }
 
-    update(dt) {
-        this.scene.traverse(node => {
-            if (node.id == "bullet") {
-                node.update(dt);
-            }
-        });
+    update(dt) { // it done in physics 
+        // this.scene.traverse(node => {
+        //     if (node.id == "bullet") {
+        //         node.update(dt);
+        //     }
+        // });
     }
 
     add(bullet) {
