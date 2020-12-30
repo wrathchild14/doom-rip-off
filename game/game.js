@@ -39,8 +39,10 @@ class App extends Application {
 		this.my_bullet.updateMatrix();
 
 		this.my_enemy = await this.loader.loadNode("Cube.001");
-		this.my_enemy.translation = vec3.fromValues(0, -3, 0);
+		this.my_enemy.translation = vec3.fromValues(100, -1, 0);
 		this.my_enemy.updateMatrix();
+
+		this.kill_counter = -2;
 
 		// making the "player"
 		this.camera = new MyCamera();
@@ -117,6 +119,7 @@ class App extends Application {
 
 		if (this.enemy_count < 2) {
 			let enemy = new Enemy();
+			this.kill_counter++;
 			let x = Math.random() * (5 - -5) + -5;
 			let z = Math.random() * (5 - -5) + -5;
 			enemy.translation = [x, 1, z];
@@ -139,6 +142,8 @@ class App extends Application {
 				}
 			}
 		}
+
+		console.log(this.kill_counter);
 	}
 
 	render() {
