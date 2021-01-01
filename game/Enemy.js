@@ -17,9 +17,10 @@ export default class Enemy extends Node {
 			vec3.clone(options.velocity) :
 			vec3.fromValues(0, 0, 0);
 		this.mouseSensitivity = 0.002;
-		this.maxSpeed = 3;
+		this.maxSpeed = 1.5;
 		this.friction = 0.2;
 		this.acceleration = 20;
+		this.playerRotation = 0;
 
 		// this.mesh = null; // put the mesh later
 
@@ -36,5 +37,20 @@ export default class Enemy extends Node {
 
 	update(dt) {
 		// randomize direction towards the player?
+		this.r = this.playerRotation;
+		const c = this;
+		const forward = vec3.set(vec3.create(),
+			-Math.sin(c.r[1]), 0, -Math.cos(c.r[1]));
+		let acc = vec3.create(0, 0, 0);
+
+		// just make them go back lol :D
+		vec3.sub(acc, acc, forward);
+		vec3.scaleAndAdd(c.velocity, c.velocity, acc, dt * c.acceleration);
+		const len = vec3.len(c.velocity);
+		if (len > c.maxSpeed) {
+			vec3.scale(c.velocity, c.velocity, c.maxSpeed / len);
+		}
+		vec3.scaleAndAdd(c.translation, c.translation, c.velocity, dt);
+		this.updateMatrix();
 	}
 }

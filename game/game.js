@@ -39,11 +39,13 @@ class App extends Application {
 		this.my_bullet.updateMatrix();
 
 		// can be anyting
-		this.my_enemy = await this.loader.loadNode("Cube.001");
+		// make a name for this
+		this.my_enemy = await this.loader.loadNode("Cube.001"); // "Enemy"
 		this.my_enemy.translation = vec3.fromValues(100, -1, 0);
 		this.my_enemy.updateMatrix();
 
-		this.kill_counter = -2;
+		this.kill_counter = -2; // it spawn 2 enemys, 
+		// and it counts for every new guy spawned
 
 		// making the "player"
 		this.camera = new MyCamera();
@@ -88,6 +90,7 @@ class App extends Application {
 			this.camera.update(dt);
 			this.bullets = this.camera.getBullets();
 
+			this.physics.playerRotation = vec3.clone(this.camera.r);
 			// this is an oof
 			if (this.bullets.length > 0) {
 				// this.bulletPhysics.add(this.bullets[0]);
@@ -118,7 +121,7 @@ class App extends Application {
 			}
 		}
 
-		if (this.enemy_count < 2) {
+		if (this.enemy_count < 4) {
 			let enemy = new Enemy();
 			this.kill_counter++;
 			let x = Math.random() * (5 - -5) + -5;
@@ -131,7 +134,7 @@ class App extends Application {
 
 		// if i make a barrier across all the level, delete this, 
 		// it would automaticly delete the bullet if it collides with the said strucutre
-		
+
 		// delete the bullets if they are out of range 50 on x and y
 		if (this.scene) {
 			for (let i = 0; i < this.scene.nodes.length; i++) {
@@ -147,7 +150,9 @@ class App extends Application {
 			}
 		}
 
-		console.log(this.kill_counter);
+		// console.log(this.scene);
+
+		// console.log(this.kill_counter);
 	}
 
 	render() {

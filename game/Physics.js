@@ -5,6 +5,7 @@ export default class Physics {
 
     constructor(scene) {
         this.scene = scene;
+        this.playerRotation = 0;
     }
 
     update(dt) {
@@ -21,6 +22,10 @@ export default class Physics {
             // todo: if the bullets hits a target, kill it 
             if (node.id == 'bullet') {
                 node.update(dt);
+            }
+            if (node.id == 'enemy') {
+                node.playerRotation = this.playerRotation;
+                node.update(dt)
             }
         });
     }
@@ -72,13 +77,21 @@ export default class Physics {
         // deletes the bullet if it hits a structure
         if (a.id == "bullet" && b.id != "enemy") {
             this.delete(a);
-        } 
-
-        // ok its bad, the enemy dies before the bullet comes to it
-        if (a.id == "bullet" && b.id == "enemy") {
+            return;
+        } else if (b.id == "bullet" && a.id != "enemy") {
             this.delete(b);
+            return;
+        }
+
+        // ok its bad, the enemy and the bullet dies before the bullet comes to it
+        if (a.id == "bullet" && b.id == "enemy") {
+            this.delete(a);
+            this.delete(b);
+            return;
         } else if (b.id == "bullet" && a.id == "enemy") {
             this.delete(a);
+            this.delete(b);
+            return;
         }
 
         // Move node A minimally to avoid collision.

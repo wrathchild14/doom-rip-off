@@ -115,6 +115,8 @@ export default class MyCamera extends Node {
     mouseshootHandler() {
         let bullet = new Bullet();
 
+        // gets the translation and the rotation of the player
+        // and a little bit forward
         const forward = vec3.set(vec3.create(),
             -Math.sin(this.r[1]), 0, -Math.cos(this.r[1]));
         bullet.translation = vec3.add(vec3.create(), this.translation, forward);
