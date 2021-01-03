@@ -11,6 +11,7 @@ export default class MyCamera extends Node {
     constructor(options = {}) {
         super(options = {});
 
+        this.id = "player";
         this.r = options.r ?
             vec3.clone(options.r) :
             vec3.fromValues(0, 0, 0);

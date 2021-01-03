@@ -33,7 +33,10 @@ export default class Bullet extends Node {
 		const c = this;
 		const forward = vec3.set(vec3.create(),
 			-Math.sin(c.r[1]), 0, -Math.cos(c.r[1]));
+
 		let acc = vec3.create(0,0,0);
+		vec3.add(acc, acc, forward); // lazy fix
+		vec3.add(acc, acc, forward);
 		vec3.add(acc, acc, forward);
 		vec3.scaleAndAdd(c.velocity, c.velocity, acc, dt * c.acceleration);
 		const len = vec3.len(c.velocity);

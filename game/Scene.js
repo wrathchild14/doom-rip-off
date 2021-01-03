@@ -4,6 +4,7 @@ export default class Scene {
 
     constructor(options = {}) {
         this.nodes = [...(options.nodes || [])];
+        this.continuation = true;
     }
 
     addNode(node) {

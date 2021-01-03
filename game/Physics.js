@@ -5,7 +5,6 @@ export default class Physics {
 
     constructor(scene) {
         this.scene = scene;
-        this.playerRotation = 0;
     }
 
     update(dt) {
@@ -19,13 +18,17 @@ export default class Physics {
                     }
                 });
             }
-            // todo: if the bullets hits a target, kill it 
+            
             if (node.id == 'bullet') {
                 node.update(dt);
             }
             if (node.id == 'enemy') {
                 node.playerRotation = this.playerRotation;
-                node.update(dt)
+                node.update(dt);
+                // let bullet = node.update(dt)
+                // if (bullet) {
+                //     this.scene.addNode(bullet);
+                // }
             }
         });
     }
@@ -74,6 +77,30 @@ export default class Physics {
             return;
         }
 
+
+        // bullet and player dies
+        if (a.id == "bullet" && b.id == "player") {
+            this.scene.continuation = false;
+            console.log("player hit");
+            return;
+        } else if (b.id == "bullet" && a.id == "player") {
+            this.scene.continuation = false;
+            console.log("player hit");
+            return;
+        }
+
+        if (a.id == "enemy" && b.id == "player") {
+            this.scene.continuation = false;
+            console.log("player eaten");
+            return;
+        } else if (b.id == "enemy" && a.id == "player") {
+            this.scene.continuation = false;
+            console.log("player eaten");
+            return;
+        }
+
+
+        // checks for the player and then checks for a structure
         // deletes the bullet if it hits a structure
         if (a.id == "bullet" && b.id != "enemy") {
             this.delete(a);
@@ -87,10 +114,12 @@ export default class Physics {
         if (a.id == "bullet" && b.id == "enemy") {
             this.delete(a);
             this.delete(b);
+            console.log(this.scene.kill_counter);
             return;
         } else if (b.id == "bullet" && a.id == "enemy") {
             this.delete(a);
             this.delete(b);
+            console.log(this.scene.kill_counter);
             return;
         }
 
