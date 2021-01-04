@@ -18,17 +18,24 @@ export default class Physics {
                     }
                 });
             }
-            
+
+            // i can just do node.update(dt);
             if (node.id == 'bullet') {
+                node.update(dt);
+            }
+            if (node.id == 'enemy bullet') {
                 node.update(dt);
             }
             if (node.id == 'enemy') {
                 node.playerRotation = this.playerRotation;
-                node.update(dt);
-                // let bullet = node.update(dt)
-                // if (bullet) {
-                //     this.scene.addNode(bullet);
-                // }
+                
+                // i spawn the bullets here with every enemy update
+                let bullet = node.update(dt)
+                if (bullet) {
+                    // change the enemy bullet mesh here
+                    bullet.mesh = this.enemyBulletMesh;
+                    this.scene.addNode(bullet);
+                }
             }
         });
     }
@@ -79,11 +86,11 @@ export default class Physics {
 
 
         // bullet and player dies
-        if (a.id == "bullet" && b.id == "player") {
+        if (a.id == "enemy bullet" && b.id == "player") {
             this.scene.continuation = false;
             console.log("player hit");
             return;
-        } else if (b.id == "bullet" && a.id == "player") {
+        } else if (b.id == "enemy bullet" && a.id == "player") {
             this.scene.continuation = false;
             console.log("player hit");
             return;
@@ -106,6 +113,14 @@ export default class Physics {
             this.delete(a);
             return;
         } else if (b.id == "bullet" && a.id != "enemy") {
+            this.delete(b);
+            return;
+        }
+
+        if (a.id == "enemy bullet" && b.id != "enemy") {
+            this.delete(a);
+            return;
+        } else if (b.id == "enemy bullet" && a.id != "enemy") {
             this.delete(b);
             return;
         }

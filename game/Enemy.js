@@ -19,7 +19,7 @@ export default class Enemy extends Node {
 			vec3.clone(options.velocity) :
 			vec3.fromValues(0, 0, 0);
 		this.mouseSensitivity = 0.002;
-		this.maxSpeed = 1.5;
+		this.maxSpeed = 1;
 		this.friction = 0.2;
 		this.acceleration = 20;
 
@@ -35,18 +35,30 @@ export default class Enemy extends Node {
 	}
 
 	update(dt) {
-		// randomize direction towards the player?
-		this.r = this.playerRotation;
 		const c = this;
+		c.r[0] = this.playerRotation[0];
+		c.r[1] = this.playerRotation[1];
+		const pi = Math.PI;
+		const twopi = pi * 2;
+		const halfpi = pi / 2;
+		if (c.r[0] > halfpi) {
+			c.r[0] = halfpi;
+		}
+		if (c.r[0] < -halfpi) {
+			c.r[0] = -halfpi;
+		}
+		c.r[1] = ((c.r[1] % twopi) + twopi) % twopi;
+		const degrees = c.r.map(x => x * 180 / pi);
+		c.rotation = quat.fromEuler(c.rotation, 2, degrees[1], degrees[2]);
+		// this makes them turn
 
 		const forward = vec3.set(vec3.create(),
-			Math.sin(c.r[1]), 0, Math.cos(c.r[1])); 
-		// this is forwards the player (its the behind of the rotation)
-
+			-Math.sin(this.r[1]), 0, -Math.cos(this.r[1]));
 		let acc = vec3.create(0, 0, 0);
 
-		// just make them go back lol :D
-		vec3.add(acc, acc, forward);
+		// so the model its on its back and i just subtract pi of the rotation of the bullet
+		// vec3.add(acc, acc, forward);
+		vec3.sub(acc, acc, forward);
 		vec3.scaleAndAdd(c.velocity, c.velocity, acc, dt * c.acceleration);
 		const len = vec3.len(c.velocity);
 		if (len > c.maxSpeed) {
@@ -55,16 +67,18 @@ export default class Enemy extends Node {
 		vec3.scaleAndAdd(c.translation, c.translation, c.velocity, dt);
 		this.updateMatrix();
 
-		// if (this.counter % 100 == 0) {
-// 
-		// 	console.log("im shooitng");
-		// 	let bullet = new Bullet();
-		// 	bullet.translation = vec3.add(vec3.create(), this.translation, forward);
-		// 	bullet.r = vec3.add(vec3.create(), this.r, vec3.create());
-// 
-		// 	return bullet;
-		// 	// shoot the bullets somoehow, its in physics file
-		// }
-		// this.counter++;
+		// change this up
+		// shoot them on intervals
+		this.counter++;
+		if (this.counter % 100 == 0) {
+			let bullet = new Bullet();
+			bullet.id = "enemy bullet";
+			bullet.maxSpeed = 7;
+			bullet.translation = vec3.add(vec3.create(), this.translation, forward);
+			bullet.r = vec3.set(vec3.create(), this.r[0], this.r[1] - pi, this.r[2]);
+			// hardcoding
+			return bullet;
+			// shoot the bullets somoehow, its in physics file
+		}
 	}
 }

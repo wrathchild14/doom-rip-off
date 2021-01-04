@@ -14,6 +14,7 @@ import OrthographicCamera from './OrthographicCamera.js';
 import Enemy from './Enemy.js';
 
 const mat4 = glMatrix.mat4;
+const quat = glMatrix.quat;
 const vec3 = glMatrix.vec3;
 
 class App extends Application {
@@ -59,6 +60,9 @@ class App extends Application {
 
 		this.bullets = [];
 		this.physics = new Physics(this.scene);
+		
+		// load the enemy bullet mesh here
+		this.physics.enemyBulletMesh = this.my_bullet.mesh;
 
 		console.log(this.scene, this.physics);
 
