@@ -1,15 +1,15 @@
 import Application from '../../common/Application.js';
-import * as WebGL from './WebGL.js';
+// import * as WebGL from './WebGL.js';
 import GLTFLoader from './GLTFLoader.js';
 import Renderer from './Renderer.js';
 
 import PerspectiveCamera from './PerspectiveCamera.js';
-import Node from './Node.js';
+// import Node from './Node.js';
 import MyCamera from './MyCamera.js';
-import Bullet from './Bullet.js';
+// import Bullet from './Bullet.js';
 import Physics from './Physics.js';
-import BulletPhysics from './BulletPhysics.js';
-import OrthographicCamera from './OrthographicCamera.js';
+// import BulletPhysics from './BulletPhysics.js';
+// import OrthographicCamera from './OrthographicCamera.js';
 
 import Enemy from './Enemy.js';
 
@@ -21,27 +21,18 @@ class App extends Application {
 
 	async start() {
 		this.loader = new GLTFLoader();
-		// await this.loader.load('../../common/models/Cube/Cube.gltf');
-		// await this.loader.load('../../common/models/BoxTextured/BoxTextured.gltf');
-		// await this.loader.load('../../common/models/monkey/monkey.gltf');
-		// await this.loader.load('../../common/models/test/test.gltf');
-		// await this.loader.load('../../common/models/untitled/untitled.gltf');
 		await this.loader.load('../../common/models/1level/1level.gltf');
-		// await this.loader.load('../../common/models/collision_test/collision_test.gltf');
-		// await this.loader.load('../../common/models/aabbtest/aabbtest.gltf');
-		// await this.loader.load('../../common/models/pyramid/pyramid.gltf');
-		// await this.loader.load('../../common/models/myLevel/myLevel.gltf')
 
 		this.scene = await this.loader.loadScene(this.loader.defaultScene);
 
-		this.my_bullet = await this.loader.loadNode("Sphere");
+		this.my_bullet = await this.loader.loadNode("Bullet");
 		// sphere is my bullet
 		this.my_bullet.translation = vec3.fromValues(0, -1, 0);
 		this.my_bullet.updateMatrix();
 
 		// can be anyting
 		// make a name for this
-		this.my_enemy = await this.loader.loadNode("Cube.001"); // "Enemy"
+		this.my_enemy = await this.loader.loadNode("Enemy"); // "Enemy"
 		this.my_enemy.translation = vec3.fromValues(100, -1, 0);
 		this.my_enemy.updateMatrix();
 
@@ -62,7 +53,14 @@ class App extends Application {
 		this.physics = new Physics(this.scene);
 		
 		// load the enemy bullet mesh here
-		this.physics.enemyBulletMesh = this.my_bullet.mesh;
+		this.enemy_bullet = await this.loader.loadNode("Enemy Bullet");
+		this.physics.enemyBulletMesh = this.enemy_bullet.mesh;
+		this.enemy_bullet.translation = vec3.fromValues(0, -1, 0);
+		this.enemy_bullet.updateMatrix();
+
+		this.my_gun = await this.loader.loadNode("Gun");
+		this.camera.gun = this.my_gun;
+		console.log(this.camera.gun);
 
 		console.log(this.scene, this.physics);
 
@@ -131,8 +129,8 @@ class App extends Application {
 				let enemy = new Enemy();
 				this.kill_counter++;
 				this.scene.kill_counter = this.kill_counter;
-				let x = Math.random() * (5 - -5) + -5;
-				let z = Math.random() * (5 - -5) + -5;
+				let x = Math.random() * (20 - -20) + -20;
+				let z = Math.random() * (20 - -20) + -20;
 				enemy.translation = [x, 1, z];
 				enemy.mesh = this.my_enemy.mesh;
 				enemy.updateMatrix();
@@ -157,9 +155,6 @@ class App extends Application {
 				}
 			}
 		}
-		// console.log(this.scene);
-
-		// console.log(this.kill_counter);
 	}
 
 	render() {

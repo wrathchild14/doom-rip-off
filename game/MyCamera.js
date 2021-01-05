@@ -28,8 +28,8 @@ export default class MyCamera extends Node {
 
         //test
         this.aabb = {
-            "min": [-0.2, -0.2, -0.2],
-            "max": [0.2, 0.2, 0.2]
+            "min": [-0.3, -0.3, -0.3],
+            "max": [0.3, 0.3, 0.3] // make the player a lil fat
         }
 
         this.mousemoveHandler = this.mousemoveHandler.bind(this);
@@ -93,6 +93,13 @@ export default class MyCamera extends Node {
         // this.updateTransformB();
 
         this.updateMatrix();
+
+        // gun sorted last (reduces lag)
+        this.gun.r = vec3.set(vec3.create(), this.r[0], this.r[1], this.r[2]);
+        this.gun.translation = vec3.add(vec3.create(), this.translation, forward);
+        this.gun.rotation = quat.clone(this.rotation)
+        this.gun.translation[1] -= 0.5;
+        this.gun.updateMatrix();
     }
 
     enable() {

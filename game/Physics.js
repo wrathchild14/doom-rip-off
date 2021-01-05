@@ -106,7 +106,6 @@ export default class Physics {
             return;
         }
 
-
         // checks for the player and then checks for a structure
         // deletes the bullet if it hits a structure
         if (a.id == "bullet" && b.id != "enemy") {
@@ -129,7 +128,7 @@ export default class Physics {
         if (a.id == "bullet" && b.id == "enemy") {
             this.delete(a);
             this.delete(b);
-            console.log(this.scene.kill_counter);
+            console.log(this.scene.kill_counter); // logs every kill
             return;
         } else if (b.id == "bullet" && a.id == "enemy") {
             this.delete(a);

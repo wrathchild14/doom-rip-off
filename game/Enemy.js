@@ -19,7 +19,7 @@ export default class Enemy extends Node {
 			vec3.clone(options.velocity) :
 			vec3.fromValues(0, 0, 0);
 		this.mouseSensitivity = 0.002;
-		this.maxSpeed = 1;
+		this.maxSpeed = 2;
 		this.friction = 0.2;
 		this.acceleration = 20;
 
@@ -70,12 +70,13 @@ export default class Enemy extends Node {
 		// change this up
 		// shoot them on intervals
 		this.counter++;
-		if (this.counter % 100 == 0) {
+		if (this.counter % 80 == 0) {
 			let bullet = new Bullet();
 			bullet.id = "enemy bullet";
-			bullet.maxSpeed = 7;
+			bullet.maxSpeed = 5;
 			bullet.translation = vec3.add(vec3.create(), this.translation, forward);
-			bullet.r = vec3.set(vec3.create(), this.r[0], this.r[1] - pi, this.r[2]);
+			bullet.r = vec3.set(vec3.create(), this.r[0], this.r[1] - pi, this.r[2]); // subtract pi
+			bullet.scale = vec3.fromValues(0.2, 0.2, 0.2);
 			// hardcoding
 			return bullet;
 			// shoot the bullets somoehow, its in physics file
