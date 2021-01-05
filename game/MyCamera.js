@@ -97,8 +97,8 @@ export default class MyCamera extends Node {
         // gun sorted last (reduces lag)
         this.gun.r = vec3.set(vec3.create(), this.r[0], this.r[1], this.r[2]);
         this.gun.translation = vec3.add(vec3.create(), this.translation, forward);
-        this.gun.rotation = quat.clone(this.rotation)
-        this.gun.translation[1] -= 0.5;
+        this.gun.rotation = [0, this.rotation[1], this.rotation[2], this.rotation[3]]
+        this.gun.translation[1] -= 0.4;
         this.gun.updateMatrix();
     }
 

@@ -37,7 +37,8 @@ class App extends Application {
 		this.my_enemy.updateMatrix();
 
 		// this.kill_counter = -2; // it spawn 2 enemys, 
-		this.kill_counter = -10; // it spawn 2 enemys, 
+		this.kill_counter = -15; // it spawn 2 enemys, 
+		// this.max_enemies = 10;
 		// and it counts for every new guy spawned
 
 		// making the "player"
@@ -125,17 +126,23 @@ class App extends Application {
 				}
 			}
 
-			if (this.enemy_count < 10) {
+			if (this.enemy_count <= 15) {
 				let enemy = new Enemy();
 				this.kill_counter++;
 				this.scene.kill_counter = this.kill_counter;
-				let x = Math.random() * (20 - -20) + -20;
-				let z = Math.random() * (20 - -20) + -20;
+				let x = Math.random() * (50 - -50) + -50;
+				let z = Math.random() * (50 - -50) + -50;
 				enemy.translation = [x, 1, z];
 				enemy.mesh = this.my_enemy.mesh;
 				enemy.updateMatrix();
 				this.scene.addNode(enemy);
 			}
+
+			// if (this.kill_counter % 2 == 0) {
+			// 	this.max_enemies ++;
+			// }
+			// console.log(this.max_enemies);
+			
 
 			// if i make a barrier across all the level, delete this, 
 			// it would automaticly delete the bullet if it collides with the said strucutre
