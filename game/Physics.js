@@ -88,11 +88,9 @@ export default class Physics {
         // bullet and player dies
         if (a.id == "enemy bullet" && b.id == "player") {
             this.scene.continuation = false;
-            console.log("player hit");
             return;
         } else if (b.id == "enemy bullet" && a.id == "player") {
             this.scene.continuation = false;
-            console.log("player hit");
             return;
         }
 
@@ -102,7 +100,6 @@ export default class Physics {
             return;
         } else if (b.id == "enemy" && a.id == "player") {
             this.scene.continuation = false;
-            console.log("player eaten");
             return;
         }
 
@@ -128,12 +125,10 @@ export default class Physics {
         if (a.id == "bullet" && b.id == "enemy") {
             this.delete(a);
             this.delete(b);
-            console.log(this.scene.kill_counter); // logs every kill
             return;
         } else if (b.id == "bullet" && a.id == "enemy") {
             this.delete(a);
             this.delete(b);
-            console.log(this.scene.kill_counter);
             return;
         }
 

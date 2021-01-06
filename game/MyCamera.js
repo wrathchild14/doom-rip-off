@@ -15,9 +15,6 @@ export default class MyCamera extends Node {
         this.r = options.r ?
             vec3.clone(options.r) :
             vec3.fromValues(0, 0, 0);
-        // this.projection = options.projection ?
-        //     mat4.clone(options.projection) :
-        //     mat4.create();
         this.velocity = options.velocity ?
             vec3.clone(options.velocity) :
             vec3.fromValues(0, 0, 0);
@@ -84,21 +81,14 @@ export default class MyCamera extends Node {
         // 5: update translation
         vec3.scaleAndAdd(c.translation, c.translation, c.velocity, dt);
 
-        // 6: update the final transform
-        // const t = c.transform;
-        // mat4.identity(t);
-        // mat4.translate(t, t, c.translation);
-        // mat4.rotateY(t, t, c.r[1]);
-        // mat4.rotateX(t, t, c.r[0]);
-        // this.updateTransformB();
-
+        // 6: update 
         this.updateMatrix();
 
         // gun sorted last (reduces lag)
         this.gun.r = vec3.set(vec3.create(), this.r[0], this.r[1], this.r[2]);
         this.gun.translation = vec3.add(vec3.create(), this.translation, forward);
         this.gun.rotation = [0, this.rotation[1], this.rotation[2], this.rotation[3]]
-        this.gun.translation[1] -= 0.4;
+        this.gun.translation[1] -= 0.5;
         this.gun.updateMatrix();
     }
 
