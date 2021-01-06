@@ -1,3 +1,4 @@
+const mat4 = glMatrix.mat4;
 const vec3 = glMatrix.vec3;
 const mat4 = glMatrix.mat4;
 
@@ -96,7 +97,6 @@ export default class Physics {
 
         if (a.id == "enemy" && b.id == "player") {
             this.scene.continuation = false;
-            console.log("player eaten");
             return;
         } else if (b.id == "enemy" && a.id == "player") {
             this.scene.continuation = false;
@@ -165,7 +165,5 @@ export default class Physics {
 
         vec3.add(a.translation, a.translation, minDirection);
         a.updateTransformB();
-        // a.updateMatrix();
-        // console.log(a.translation);
     }
 }

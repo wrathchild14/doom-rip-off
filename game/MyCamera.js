@@ -1,11 +1,9 @@
 import Node from './Node.js';
 import Bullet from './Bullet.js';
-import Camera from './Camera.js';
 
 const mat4 = glMatrix.mat4;
 const quat = glMatrix.quat;
 const vec3 = glMatrix.vec3;
-
 
 export default class MyCamera extends Node {
     constructor(options = {}) {

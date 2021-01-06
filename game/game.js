@@ -1,16 +1,9 @@
 import Application from '../../common/Application.js';
-// import * as WebGL from './WebGL.js';
 import GLTFLoader from './GLTFLoader.js';
 import Renderer from './Renderer.js';
-
 import PerspectiveCamera from './PerspectiveCamera.js';
-// import Node from './Node.js';
 import MyCamera from './MyCamera.js';
-// import Bullet from './Bullet.js';
 import Physics from './Physics.js';
-// import BulletPhysics from './BulletPhysics.js';
-// import OrthographicCamera from './OrthographicCamera.js';
-
 import Enemy from './Enemy.js';
 
 const mat4 = glMatrix.mat4;
@@ -74,7 +67,6 @@ class App extends Application {
 	}
 
 	enableCamera() {
-		// this.scene.continuation = true;
 		this.canvas.requestPointerLock();
 		this.myAudio.play();
 	}
@@ -141,22 +133,6 @@ class App extends Application {
 				enemy.mesh = this.my_enemy.mesh;
 				enemy.updateMatrix();
 				this.scene.addNode(enemy);
-			}
-
-			// this is not needed
-			// delete the bullets if they are out of range 50 on x and y
-			if (this.scene) {
-				for (let i = 0; i < this.scene.nodes.length; i++) {
-					let x = this.scene.nodes[i].translation[0],
-						// y = this.scene.nodes[i].translation[1],
-						// no need for y
-						z = this.scene.nodes[i].translation[2];
-					if (x > 50 || x < -50) {
-						this.scene.nodes.splice(i, 1);
-					} else if (z > 50 || z < -50) {
-						this.scene.nodes.splice(i, 1);
-					}
-				}
 			}
 		}
 		else {
