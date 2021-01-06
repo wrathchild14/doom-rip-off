@@ -1,4 +1,3 @@
-const mat4 = glMatrix.mat4;
 const vec3 = glMatrix.vec3;
 const mat4 = glMatrix.mat4;
 
