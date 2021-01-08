@@ -112,7 +112,7 @@ class App extends Application {
 			let my_kills = this.kill_counter - 1;
 			kills.innerHTML = "Kills: " + my_kills;
 
-			// checks how many enemies in the scene and if its less that 2,
+			// checks how many enemies in the scene
 			// randomly spawns in another enemy, can optimize this
 			if (this.scene) {
 				this.enemy_count = 0;

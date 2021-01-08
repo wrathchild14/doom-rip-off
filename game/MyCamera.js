@@ -79,7 +79,7 @@ export default class MyCamera extends Node {
         // 5: update translation
         vec3.scaleAndAdd(c.translation, c.translation, c.velocity, dt);
 
-        // 6: update 
+        // 6: update
         this.updateMatrix();
 
         // gun sorted last (reduces lag)
