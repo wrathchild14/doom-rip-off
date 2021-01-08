@@ -116,6 +116,7 @@ export default class MyCamera extends Node {
         const forward = vec3.set(vec3.create(),
             -Math.sin(this.r[1]), 0, -Math.cos(this.r[1]));
         bullet.translation = vec3.add(vec3.create(), this.translation, forward);
+        bullet.translation = vec3.add(bullet.translation, bullet.translation, forward);
         bullet.r = vec3.set(vec3.create(), this.r[0], this.r[1], this.r[2]);
 
         this.bullets.push(bullet);
